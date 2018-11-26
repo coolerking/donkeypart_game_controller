@@ -58,6 +58,66 @@ Raspberry Pi上にdonkeycarパッケージがインストールされ、`donkey 
                                  auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE)
     ```
 
+6. Raspberry Piwをシャットダウンします。
+7. コントローラ同梱のUSBドングルをRaspberry Piに刺します。
+8. Raspberry Piを再起動します。
+
+## 充電
+
+* Windows10 PCとPS4コントローラをケーブルで接続します。
+
+自動的にドライバがインストールされ、充電が開始されます。
+
+
+## 実行(手動運転)
+
+* 以下のコマンドを実行して、ジョイスティックを使った手動運転を開始します。
+   ```bash
+   cd ~/mycar
+   python manage.py drive --js
+   ```
+
+### キー割り当て
+
+Logicool製品の場合は `part/logicool.py`、Elecom製品の場合は `part/elecom.py`上の各 `JoystickController` クラス上のinit_trigger_mapsメソッドを編集することで、ジョイスティックのキーの割当機能を変更できます。
+
+以下の関数は、`part/logicool.py`より該当メソッドのみ切り出した例です。
+
+```python
+    def init_trigger_maps(self):
+        '''
+        F710 上の各ボタンに機能を割り当てるマッピング情報を
+        初期化する。
+
+        引数
+            なし
+        戻り値
+            なし
+        '''
+        self.button_down_trigger_map = {
+            'RB': self.toggle_mode,                     # 運転モード変更(user, local_angle, local)
+            'LB': self.toggle_manual_recording,         # 手動記録設定変更
+            'Y': self.erase_last_N_records,             # 最後のN件を削除(動作していない?)
+            'A': self.emergency_stop,                   # 緊急ストップ
+            'LB': self.toggle_constant_throttle,        # 一定速度維持
+            'LT_pressure': self.chaos_monkey_on_left,   # カオスモード左
+            'RT_pressure': self.chaos_monkey_on_right,  # カオスモード右
+            'X': self.increase_max_throttle,            # 最大スロットル＋＋
+            'B': self.decrease_max_throttle,            # 最大スロットル－－
+        }
+
+        self.button_up_trigger_map = {
+            "LT_pressure": self.chaos_monkey_off,       # カオスモードオフ
+            "RT_pressure": self.chaos_monkey_off,       # カオスモードオフ
+        }
+
+        self.axis_trigger_map = {
+            'left_stick_horz': self.set_steering,       # ステアリング操作
+            'right_stick_vert': self.set_throttle,      # スロットル操作
+
+        }
+```
+
 # ライセンス
 
 本リポジトリの上記OSSで生成、コピーしたコード以外のすべてのコードはMITライセンス準拠とします。
