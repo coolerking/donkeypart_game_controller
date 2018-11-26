@@ -12,7 +12,8 @@ if __name__ == "__main__":
 
     # 検索対象文字列に合致するコントローラオブジェクトを生成する
     # 妥当性検査(Debug)モードで実行する
-    ctl = CheckController(input_device_path='/dev/input/js0', verbose=True, device_search_term=device_search_term)
+    # ctl = BluetoothGameController(verbose=True, device_search_term='nintendo')
+    ctl = CheckController(input_device_path='/dev/input/js0', verbose=True, device_search_term='smart jc-u3912t')
     # イベント待受ループを開始する
     # 妥当性検査モードがTrueなのでジョイスティックのボタンやアナログスティックを操作したら
     # そのボタン名、値が１行ごとに表示される。
