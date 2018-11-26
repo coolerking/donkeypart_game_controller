@@ -43,13 +43,13 @@ Raspberry Pi上にdonkeycarパッケージがインストールされ、`donkey 
         # ジョイスティック part の生成
         if use_joystick or cfg.USE_JOYSTICK_AS_DEFAULT:
             # F710用ジョイスティックコントローラを使用
-            #from parts.logicool import F710_JoystickController
+            #from part.logicool import F710_JoystickController
             #ctr = F710_JoystickController(
             # PS4 Dualshock4 ジョイスティックコントローラを使用
             #from donkeypart_ps3_controller.part import PS4JoystickController
             #ctr = PS4JoystickController(
             # ELECOM JC-U3912T ジョイスティックコントローラを使用
-            from parts.elecom import JC_U3912T_JoystickController
+            from part.elecom import JC_U3912T_JoystickController
             ctr = JC_U3912T_JoystickController(
 
                                  throttle_scale=cfg.JOYSTICK_MAX_THROTTLE,
