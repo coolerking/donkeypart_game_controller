@@ -24,8 +24,8 @@ if __name__ == "__main__":
     #ctl = F710_JoystickController(verbose=True)
 
     # Logicool製 F710 ワイヤレスゲームパッドの場合
-    from part.bt_logicool import Codeless_RumblePad2_JoystickController
-    ctl = Codeless_RumblePad2_JoystickController(verbose=True)
+    from part.bt_logicool import Cordless_RumblePad2_JoystickController
+    ctl = Cordless_RumblePad2_JoystickController(verbose=True)
 
     # イベント待受ループを開始する
     # 妥当性検査モードがTrueなのでジョイスティックのボタンやアナログスティックを操作したら

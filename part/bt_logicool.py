@@ -151,7 +151,7 @@ class F710_JoystickController(BluetoothGameController):
             return None, None
 
 
-class Codeless_RumblePad2_JoystickController(F710_JoystickController):
+class Cordless_RumblePad2_JoystickController(F710_JoystickController):
     '''
     Logicool Cordless RumblePad 2用コントローラクラス。
     manage.pyを編集し、ジョイスティックコントローラとして本コントローラをimportし
@@ -160,12 +160,12 @@ class Codeless_RumblePad2_JoystickController(F710_JoystickController):
     '''
     def __init__(self, 
         event_input_device=None, 
-        config_path='part/codeless_rumblepad2.yml', 
+        config_path='part/cordless_rumblepad2.yml', 
         device_search_term='logicool logicool cordless rumblepad 2', 
         verbose=False):
         '''
         コンストラクタ。
-        親クラスの実装を処理後、Logicool製Codeless RumblePad2固有の設定に対応できるように
+        親クラスの実装を処理後、Logicool製Cordless RumblePad2固有の設定に対応できるように
         引数で与えられた項目をもとにいくつかのインスタンス変数を初期化・上書きする。
 
         引数
@@ -176,7 +176,7 @@ class Codeless_RumblePad2_JoystickController(F710_JoystickController):
         戻り値
             なし
         '''
-        super(Codeless_RumblePad2_JoystickController, self).__init__(
+        super(Cordless_RumblePad2_JoystickController, self).__init__(
             event_input_device=event_input_device, 
             config_path=config_path, 
             device_search_term=device_search_term, 
