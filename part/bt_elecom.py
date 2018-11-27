@@ -7,7 +7,7 @@ from donkeypart_bluetooth_game_controller import BluetoothGameController
 class JC_U3912T_JoystickController(BluetoothGameController):
     def __init__(self, 
         event_input_device=None, 
-        config_path=None, 
+        config_path='part/jc-u3912t.yml', 
         device_search_term='smart jc-u3912t', 
         verbose=False):
         super(JC_U3912T_JoystickController, self).__init__(
@@ -59,10 +59,13 @@ class JC_U3912T_JoystickController(BluetoothGameController):
 
             # アナログジョイスティック/DPADの場合
             if event.type == ecodes.EV_ABS:
+                print('analog/dpad')
                 if btn in self.dpad_target:
+                    print('in dpad_tareget')
                     # 上/左:-1 中央:0 sita 下/右:1
                     val = event.value * 1.0 
                 else:
+                    print('not in dpad_target')
                     # 中央位置の場合
                     if event.value == self.analog_stick_zero_value:
                         val = 0.0
@@ -71,12 +74,8 @@ class JC_U3912T_JoystickController(BluetoothGameController):
                         val = ((event.value - self.analog_stick_zero_value) * 1.0) / ((self.analog_stick_max_value - self.analog_stick_min_value) / 2.0)
             # 通常ボタンの場合
             else:
+                print('not analog/dpad')
                 val = 1
-
-            # アナログ値である場合
-            if event.type == ecodes.EV_ABS:
-                # 最大棒倒し値で割り、棒倒し率化してvalue値を更新
-                val = val / self.joystick_max_value
 
             # デバッグコード
             if self.verbose:
