@@ -2,7 +2,13 @@
 # write lower case
 device_search_term: 'smart jc-u3912t'
 
-# event.type==3 {event.code, name}
+# * EV_ABS:
+#  - Used to describe absolute axis value changes, e.g. describing the
+#    coordinates of a touch on a touchscreen.
+# * EV_MSC:
+#  - Used to describe miscellaneous input data that do not fit into other types.
+
+# event.type==ecodes.EV_ABS {event.code, name}
 code_map:
   0: 'LEFT_STICK_X'
   1: 'LEFT_STICK_Y'
@@ -15,7 +21,7 @@ code_map:
 # if match use button_map to solve actual name
 button_map_target: ['BUTTON']
 
-# event.type==4 {event.value, name}
+# event.type==ecodes.EV_MSC {event.value, name}
 button_map:
   589825: '1'
   589826: '2'

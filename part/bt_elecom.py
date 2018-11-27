@@ -98,20 +98,20 @@ class JC_U3912T_JoystickController(BluetoothGameController):
                 # event.value値から詳細ボタン名を取得
                 btn = self.btn_map.get(event.value)
 
-            # アナログジョイスティック/DPADの場合
+            # アナログジョイスティック/DPAD(3)の場合
             if event.type == ecodes.EV_ABS:
                 # アナログジョイスティック/DPADへ入力すると
                 # 入力時に1イベント以上、離脱時に1イベント直列に発生する
                 if self.verbose:
-                    print('analog/dpad')
+                    print('type == ecodes.EV_ABS -> analog/dpad')
                 if btn in self.dpad_target:
                     if self.verbose:
-                        print('in dpad_tareget')
+                        print(btn, ' is in dpad_tareget')
                     # 上/左:-1 中央:0 sita 下/右:1
                     val = event.value * 1.0 
                 else:
                     if self.verbose:
-                        print('not in dpad_target')
+                        print(btn, ' is not in dpad_target')
                     # 中央位置の場合
                     if event.value == self.analog_stick_zero_value:
                         val = 0.0
@@ -119,12 +119,18 @@ class JC_U3912T_JoystickController(BluetoothGameController):
                     else:
                         val = ((event.value - self.analog_stick_zero_value) * 1.0) \
                             / ((self.analog_stick_max_value - self.analog_stick_min_value) / 2.0)
-            # 通常ボタンの場合
-            else:
+            # 通常ボタン(4)の場合
+            elif event.type == ecodes.EV_MSC:
                 if self.verbose:
-                    print('not analog/dpad')
+                    print('type == ecodes.EV_ABS -> not analog/dpad')
                 # JC-U3912T ではボタン離脱イベントは存在しない
                 val = 1
+            # その他のイベントの場合
+            else:
+                if self.verbose:
+                    print('unknown type: ', event.type)
+                # ボタン名, 値ともにNoneを返却
+                return None, None
 
             # デバッグコード
             if self.verbose:
