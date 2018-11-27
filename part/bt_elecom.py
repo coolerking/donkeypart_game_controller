@@ -1,4 +1,6 @@
-
+# -*- coding: utf-8 -*-
+import evdev
+from evdev import ecodes
 
 from part.bt_con import BluetoothGameController
 
@@ -56,7 +58,7 @@ class JC_U3912T_JoystickController(BluetoothGameController):
                 btn = self.btn_map.get(event.value)
 
             # アナログジョイスティック/DPADの場合
-            if event.type == ecode.EV_ABS:
+            if event.type == ecodes.EV_ABS:
                 if btn in self.dpad_target:
                     # 上/左:-1 中央:0 sita 下/右:1
                     val = event.value * 1.0 
@@ -66,8 +68,7 @@ class JC_U3912T_JoystickController(BluetoothGameController):
                         val = 0.0
                     # 中央位置以外の場合
                     else:
-                        val = ((event.value - self.analog_stick_zero_value) * 1.0) / 
-                            ((self.analog_stick_max_value - self.analog_stick_min_value) / 2.0)
+                        val = ((event.value - self.analog_stick_zero_value) * 1.0) / ((self.analog_stick_max_value - self.analog_stick_min_value) / 2.0)
             # 通常ボタンの場合
             else:
                 val = 1
