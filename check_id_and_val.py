@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
-from part.bt_con import BluetoothGameController
-
-class CheckController(BluetoothGameController):
-    def __init__(self, input_device_path='/dev/input/js0', *args, **kwargs):
-        super(CheckController, self).__init__(*args, **kwargs)
-        print('change device file: ', input_device_path)
-        self.device = self.get_input_device(input_device_path)
 
 
 if __name__ == "__main__":
 
     # 検索対象文字列に合致するコントローラオブジェクトを生成する
     # 妥当性検査(Debug)モードで実行する
-    ctl = BluetoothGameController(verbose=True, device_search_term='jc-u3912t')
+    from part.bt_elecom import JC_U3912T_JoystickController
+    ctl = JC_U3912T_JoystickController(verbose=True)#, device_search_term='jc-u3912t')
     #ctl = CheckController(input_device_path='/dev/input/js0', verbose=True, device_search_term='smart jc-u3912t')
     # イベント待受ループを開始する
     # 妥当性検査モードがTrueなのでジョイスティックのボタンやアナログスティックを操作したら
