@@ -46,6 +46,7 @@ class BluetoothDevice:
         likely_devices = []
         # 全イベントデバイスオブジェクトループ
         for device in all_devices:
+            print('device = ', device)
             # 検索文字列が小文字化したイベントデバイス名と合致する場合
             if search_term in device.name.lower():
                 # 類似デバイスリストにイベントデバイスオブジェクトを追加
