@@ -1,15 +1,49 @@
 # -*- coding: utf-8 -*-
+"""
+ELECOM製ジョイスティック JC-U3912T を使用するためのpartクラス。
+donkeypart_bluetooth_game_controller パッケージのクラスを基底クラスとして使用するため、
+先にインストールしておく必要がある。
+
+git clone https://github.com/autorope/donkeypart_bluetooth_game_controller.git
+cd donkeypart_bluetooth_game_controller
+pip install -e .
+
+各ボタン/各axisにどの機能が割り振られているかは、
+コントロールクラス JC_U3912T_JoystickController の self.func_map を参照のこと。
+
+Author: Tasuku Hori, facebook.com/hori.tasuku
+"""
+import time
 import evdev
 from evdev import ecodes
 
 from donkeypart_bluetooth_game_controller import BluetoothGameController
 
 class JC_U3912T_JoystickController(BluetoothGameController):
+    '''
+    JC-U3912T ゲームパッド用コントローラクラス。
+    manage.pyを編集し、ジョイスティックコントローラとして本コントローラをimportし
+    て使用する。
+    Vehiecleフレームワークに準拠している。
+    '''
     def __init__(self, 
         event_input_device=None, 
         config_path='part/jc-u3912t.yml', 
         device_search_term='smart jc-u3912t', 
         verbose=False):
+        '''
+        コンストラクタ。
+        親クラスの実装を処理後、ELECOM製JC-U3912T固有の設定に対応できるように
+        引数で与えられた項目をもとにいくつかのインスタンス変数を初期化・上書きする。
+
+        引数
+            event_input_device    イベントキャラクタデバイスのInputDeviceオブジェクト(デフォルトNone→device_search_termで検索する)
+            config_path           設定ファイルパス(デフォルト'part/jc-u3912t.yml')
+            device_search_term    検索対象文字列(デフォルト'smart jc-u3912t')
+            verbose               デバッグモード(デフォルトFalse)
+        戻り値
+            なし
+        '''
         super(JC_U3912T_JoystickController, self).__init__(
             event_input_device=event_input_device, 
             config_path=config_path, 
@@ -19,9 +53,14 @@ class JC_U3912T_JoystickController(BluetoothGameController):
         # コードマップ(event.type==3)
         self.code_map = self.config.get('code_map')
         # button_map 対象となるラベル
-        self.button_map_target = self.config.get('button_map_target', ['BUTTON'])
+        self.button_map_target = self.config.get('button_map_target', 
+            ['BUTTON'])
         # DPAD 対象となるラベル
-        self.dpad_target = self.config.get('dpad_target', ['DPAD_UP', 'DPAD_DOWN', 'DPAD_LEFT', 'DPAD_RIGHT'])
+        self.dpad_target = self.config.get('dpad_target', 
+            ['DPAD_UP', 'DPAD_DOWN', 'DPAD_LEFT', 'DPAD_RIGHT'])
+        
+        # アナログ/DPADの正負反転補正
+        self.y_axis_direction = self.config.get('axis_direction', -1)
 
         # event.value 可変値範囲
         self.analog_stick_max_value = self.config.get('analog_stick_max_value', 255)
@@ -40,7 +79,9 @@ class JC_U3912T_JoystickController(BluetoothGameController):
 
     def read_loop(self):
         """
-        イベントデバイスから１件読み取り、対象のボタン名、値を返却する
+        イベントデバイスから１件読み取り、対象のボタン名、値を返却する。
+        親クラスの実装のままでは JC-U3912T 固有のイベントキャラクタデバイス
+        フォーマットに対応できないため、本メソッドをオーバライドして対応している。
 
         引数
             なし
@@ -59,22 +100,30 @@ class JC_U3912T_JoystickController(BluetoothGameController):
 
             # アナログジョイスティック/DPADの場合
             if event.type == ecodes.EV_ABS:
-                print('analog/dpad')
+                # アナログジョイスティック/DPADへ入力すると
+                # 入力時に1イベント以上、離脱時に1イベント直列に発生する
+                if self.verbose:
+                    print('analog/dpad')
                 if btn in self.dpad_target:
-                    print('in dpad_tareget')
+                    if self.verbose:
+                        print('in dpad_tareget')
                     # 上/左:-1 中央:0 sita 下/右:1
                     val = event.value * 1.0 
                 else:
-                    print('not in dpad_target')
+                    if self.verbose:
+                        print('not in dpad_target')
                     # 中央位置の場合
                     if event.value == self.analog_stick_zero_value:
                         val = 0.0
                     # 中央位置以外の場合
                     else:
-                        val = ((event.value - self.analog_stick_zero_value) * 1.0) / ((self.analog_stick_max_value - self.analog_stick_min_value) / 2.0)
+                        val = ((event.value - self.analog_stick_zero_value) * 1.0) \
+                            / ((self.analog_stick_max_value - self.analog_stick_min_value) / 2.0)
             # 通常ボタンの場合
             else:
-                print('not analog/dpad')
+                if self.verbose:
+                    print('not analog/dpad')
+                # JC-U3912T ではボタン離脱イベントは存在しない
                 val = 1
 
             # デバッグコード
@@ -92,7 +141,7 @@ class JC_U3912T_JoystickController(BluetoothGameController):
             time.sleep(.1)
             # 検索文字列self.device_search_term と合致するイベントデバイスオブジェクトを取得し
             # インスタンス変数 self.device へ格納する（やりなおし）
-            self.load_device(self.device_search_term) #device_search_termの誤り
+            self.load_device(self.device_search_term)
             # ボタン名, 値ともにNoneを返却
             return None, None
     
