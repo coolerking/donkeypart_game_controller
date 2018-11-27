@@ -11,8 +11,6 @@ pip install -e .
 各ボタン/各axisにどの機能が割り振られているかは、
 コントロールクラス JC_U3912T_JoystickController の init_trigger_maps() を
 参照のこと
-
-Author: Tasuku Hori, facebook.com/hori.tasuku
 """
 import struct
 from donkeypart_ps3_controller.part import Joystick, JoystickController

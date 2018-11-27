@@ -8,8 +8,6 @@
 出力されているのかを確認するためのプログラム。
 
 fcntl パッケージを使用するため、Windows環境では動作しない。
-
-Author: Tasuku Hori, facebook.com/hori.tasuku
 """
 
 if __name__ == "__main__":
@@ -18,8 +16,12 @@ if __name__ == "__main__":
     # 妥当性検査(Debug)モードで実行する
 
     # ELECOM製 JC-U3912T ゲームパッドの場合
-    from part.bt_elecom import JC_U3912T_JoystickController
-    ctl = JC_U3912T_JoystickController(verbose=True)
+    #from part.bt_elecom import JC_U3912T_JoystickController
+    #ctl = JC_U3912T_JoystickController(verbose=True)
+
+    # Logicool製 F710 ワイヤレスゲームパッドの場合
+    from part.bt_logicool import F710_JoystickController
+    ctl = F710_JoystickController(verbose=True)
 
     # イベント待受ループを開始する
     # 妥当性検査モードがTrueなのでジョイスティックのボタンやアナログスティックを操作したら

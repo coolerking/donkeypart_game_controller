@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ELECOM製ジョイスティック JC-U3912T を使用するためのpartクラス。
+Logicool製ワイヤレスゲームパッド F710 を使用するためのpartクラス。
 donkeypart_bluetooth_game_controller パッケージのクラスを基底クラスとして使用するため、
 先にインストールしておく必要がある。
 
@@ -9,7 +9,7 @@ cd donkeypart_bluetooth_game_controller
 pip install -e .
 
 各ボタン/各axisにどの機能が割り振られているかは、
-コントロールクラス JC_U3912T_JoystickController の self.func_map を参照のこと。
+コントロールクラス F710_JoystickController の self.func_map を参照のこと。
 """
 import time
 import evdev
@@ -17,17 +17,17 @@ from evdev import ecodes
 
 from donkeypart_bluetooth_game_controller import BluetoothGameController
 
-class JC_U3912T_JoystickController(BluetoothGameController):
+class F710_JoystickController(BluetoothGameController):
     '''
-    JC-U3912T ゲームパッド用コントローラクラス。
+    F710 ワイヤレスゲームパッド用コントローラクラス。
     manage.pyを編集し、ジョイスティックコントローラとして本コントローラをimportし
     て使用する。
     Vehiecleフレームワークに準拠している。
     '''
     def __init__(self, 
         event_input_device=None, 
-        config_path='part/jc-u3912t.yml', 
-        device_search_term='smart jc-u3912t', 
+        config_path='part/f710.yml', 
+        device_search_term='logitech gamepad f710', 
         verbose=False):
         '''
         コンストラクタ。
@@ -36,13 +36,13 @@ class JC_U3912T_JoystickController(BluetoothGameController):
 
         引数
             event_input_device    イベントキャラクタデバイスのInputDeviceオブジェクト(デフォルトNone→device_search_termで検索する)
-            config_path           設定ファイルパス(デフォルト'part/jc-u3912t.yml')
-            device_search_term    検索対象文字列(デフォルト'smart jc-u3912t')
+            config_path           設定ファイルパス(デフォルト'part/f710.yml')
+            device_search_term    検索対象文字列(デフォルト'logitech gamepad f710')
             verbose               デバッグモード(デフォルトFalse)
         戻り値
             なし
         '''
-        super(JC_U3912T_JoystickController, self).__init__(
+        super(F710_JoystickController, self).__init__(
             event_input_device=event_input_device, 
             config_path=config_path, 
             device_search_term=device_search_term, 
@@ -78,7 +78,7 @@ class JC_U3912T_JoystickController(BluetoothGameController):
     def read_loop(self):
         """
         イベントデバイスから１件読み取り、対象のボタン名、値を返却する。
-        親クラスの実装のままでは JC-U3912T 固有のイベントキャラクタデバイス
+        親クラスの実装のままでは F710 固有のイベントキャラクタデバイス
         フォーマットに対応できないため、本メソッドをオーバライドして対応している。
 
         引数

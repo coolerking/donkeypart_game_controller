@@ -8,8 +8,6 @@
 出力されているのかを確認するためのプログラム。
 
 fcntl パッケージを使用するため、Windows環境では動作しない。
-
-Author: Tasuku Hori, facebook.com/hori.tasuku
 """
 import array
 import time
