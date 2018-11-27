@@ -1,30 +1,54 @@
 
 device_search_term: 'smart jc-u3912t'
 
-
-#Map the button codes to the button names
-button_map:
-  305: 'A'
-  304: 'B'
-  307: 'X'
-  308: 'Y'
-  312: 'LEFT_BOTTOM_TRIGGER'
-  310: 'LEFT_TOP_TRIGGER'
-  313: 'RIGHT_BOTTOM_TRIGGER'
-  311: 'RIGHT_TOP_TRIGGER'
-  317: 'LEFT_STICK_PRESS'
-  318: 'RIGHT_STICK_PRESS'
-  314: 'SELECT'
-  315: 'START'
+# event.type==3 {event.code, name}
+code_map:
   0: 'LEFT_STICK_X'
   1: 'LEFT_STICK_Y'
-  3: 'RIGHT_STICK_X'
-  4: 'RIGHT_STICK_Y'
-  547: 'PAD_RIGHT'
-  546: 'PAD_LEFT'
-  544: 'PAD_UP'
-  548: 'PAD_DOWN'
+  2: 'RIGHT_STICK_Y'
+  4: 'BUTTON'
+  5: 'RIGHT_STICK_X'
+  16: 'DPAD_X'
+  17: 'DPAD_Y'
 
+button_map_target: ['BUTTON']
 
-joystic_max_value: 1280
+# event.type==4 {event.value, name}
+button_map:
+  589826: '2'
+  589827: '3'
+  589828: '4'
+  589829: '5'
+  589830: '6'
+  589831: '7'
+  589832: '8'
+  589833: '9'
+  589834: '10'
+  589835: '11'
+  589836: '12'
+
+# JC-U3912T:PS3/4:XBox
+# 1:□:X
+# 2:△:Y
+# 3:✕:A
+# 4:◯:B
+# 5:L1:LB
+# 6:R1:RB
+# 7:L2:L_trigger
+# 8:R2:R_trigger
+# 9:LEFT_STICK_X/Y:LEFT_STICK
+# 10:RIGHT_STICK_X/Y:RIGHT_STICK
+# 11:select:<
+# 12:start:>
+
+# LEFT_STICK_X, LEFT_STICK_Y, RIGHT_STICK_X, RIGHT_STICK_Y
+analog_stick_max_value: 255
+analog_stick_zero_value: 128
+analog_stick_min_value: 0
+
+# DPAD_X, DPAD_Y
+dpad_target: ['DPAD_X', 'DPAD_Y']
+#dpad_max_value: 1
+#dpad_zero_value: 0
+#dpad_min_value: -1
 
