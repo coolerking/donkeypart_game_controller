@@ -221,8 +221,10 @@ class BluetoothGameController(BluetoothDevice):
             if event.type == ecodes.EV_ABS:
                 # 最大棒倒し値で割り、棒倒し率化してvalue値を更新
                 val = val / self.joystick_max_value
-            print('code: [', event.code,  '] val:', event.value, '] type:[', event.type, ']')
+            print('code: [', event.code,  '] val:[', event.value, '] type:[', event.type, ']')
+            print(' is keyevent: ', (type(event)==evdev.events.KeyEvent))
             print(' is analog: ', (event.type == ecodes.EV_ABS) )
+            print(' is key: ', (event.type == ecodes.EV_ABS) )
             print(' match name: ', btn)
             # ボタン名、値の返却
             return btn, val
