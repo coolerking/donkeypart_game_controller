@@ -127,6 +127,7 @@ class F710_JoystickController(BluetoothGameController):
             else:
                 if self.verbose:
                     print('unknown type: ', event.type)
+                    print('code: [', event.code,  '] val:[', event.value, '] type:[', event.type, ']')
                 # ボタン名, 値ともにNoneを返却
                 return None, None
 
