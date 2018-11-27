@@ -15,6 +15,7 @@ button_map_target: ['BUTTON']
 
 # event.type==4 {event.value, name}
 button_map:
+  589825: '1'
   589826: '2'
   589827: '3'
   589828: '4'
