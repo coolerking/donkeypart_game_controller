@@ -149,4 +149,62 @@ class F710_JoystickController(BluetoothGameController):
             self.load_device(self.device_search_term)
             # ボタン名, 値ともにNoneを返却
             return None, None
-    
+
+
+class Codeless_RumblePad2_JoystickController(F710_JoystickController):
+    '''
+    Logicool Cordless RumblePad 2用コントローラクラス。
+    manage.pyを編集し、ジョイスティックコントローラとして本コントローラをimportし
+    て使用する。
+    Vehiecleフレームワークに準拠している。
+    '''
+    def __init__(self, 
+        event_input_device=None, 
+        config_path='part/codeless_rumblepad2.yml', 
+        device_search_term='logicool logicool cordless rumblepad 2', 
+        verbose=False):
+        '''
+        コンストラクタ。
+        親クラスの実装を処理後、Logicool製Codeless RumblePad2固有の設定に対応できるように
+        引数で与えられた項目をもとにいくつかのインスタンス変数を初期化・上書きする。
+
+        引数
+            event_input_device    イベントキャラクタデバイスのInputDeviceオブジェクト(デフォルトNone→device_search_termで検索する)
+            config_path           設定ファイルパス(デフォルト'part/f710.yml')
+            device_search_term    検索対象文字列(デフォルト'logitech gamepad f710')
+            verbose               デバッグモード(デフォルトFalse)
+        戻り値
+            なし
+        '''
+        super(Codeless_RumblePad2_JoystickController, self).__init__(
+            event_input_device=event_input_device, 
+            config_path=config_path, 
+            device_search_term=device_search_term, 
+            verbose=verbose)
+
+        # コードマップ(event.type==3)
+        self.code_map = self.config.get('code_map')
+        # button_map 対象となるラベル
+        self.button_map_target = self.config.get('button_map_target', 
+            ['BUTTON'])
+        # DPAD 対象となるラベル
+        self.dpad_target = self.config.get('dpad_target', 
+            ['DPAD_UP', 'DPAD_DOWN', 'DPAD_LEFT', 'DPAD_RIGHT'])
+        
+        # アナログ/DPADの正負反転補正
+        self.y_axis_direction = self.config.get('axis_direction', -1)
+
+        # event.value 可変値範囲
+        self.analog_stick_max_value = self.config.get('analog_stick_max_value', 255)
+        self.analog_stick_zero_value = self.config.get('analog_stick_zero_value', 128)
+        self.analog_stick_min_value = self.config.get('analog_stick_min_value', 0)
+
+        # 独自関数マップ　書き換え(key:ボタン名, value:呼び出す関数)
+        self.func_map = {
+            'LEFT_STICK_X': self.update_angle,     # アングル値更新
+            'RIGHT_STICK_Y': self.update_throttle, # スロットル値更新
+            '1': self.toggle_recording,            # 記録モード変更
+            '4': self.toggle_drive_mode,           # 運転モード変更
+            '2': self.increment_throttle_scale,    # スロットル倍率増加
+            '3': self.decrement_throttle_scale,    # スロットル倍率減少
+        }
