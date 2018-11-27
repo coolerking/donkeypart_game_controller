@@ -2,7 +2,7 @@
 import evdev
 from evdev import ecodes
 
-from part.bt_con import BluetoothGameController
+from donkeypart_bluetooth_game_controller import BluetoothGameController
 
 class JC_U3912T_JoystickController(BluetoothGameController):
     def __init__(self, 
