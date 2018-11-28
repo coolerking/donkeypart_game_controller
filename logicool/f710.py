@@ -25,7 +25,7 @@ from evdev import ecodes
 
 from donkeypart_bluetooth_game_controller import BluetoothGameController
 
-class F710_JoystickController(BluetoothGameController):
+class JoystickController(BluetoothGameController):
     """
     F710 ワイヤレスゲームパッド用コントローラクラス。
     manage.pyを編集し、ジョイスティックコントローラとして本コントローラをimportし
@@ -56,7 +56,7 @@ class F710_JoystickController(BluetoothGameController):
         DI_CONFIG_PATH = 'part/f710_di.yml'
 
         if self.find_input_device(XI_SEARCH_TERM) is None:
-            super(F710_JoystickController, self).__init__(
+            super(JoystickController, self).__init__(
                 event_input_device=event_input_device, 
                 config_path=DI_CONFIG_PATH, 
                 device_search_term=DI_SEARCH_TERM, 
@@ -66,7 +66,7 @@ class F710_JoystickController(BluetoothGameController):
             self.is_xi = False
             self._init_di()
         else:
-            super(F710_JoystickController, self).__init__(
+            super(JoystickController, self).__init__(
                 event_input_device=event_input_device, 
                 config_path=XI_CONFIG_PATH, 
                 device_search_term=XI_SEARCH_TERM, 
