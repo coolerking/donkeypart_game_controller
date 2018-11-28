@@ -16,16 +16,11 @@ if __name__ == "__main__":
     # 妥当性検査(Debug)モードで実行する
 
     # ELECOM製 JC-U3912T ゲームパッドの場合
-    #from part.bt_elecom import JC_U3912T_JoystickController
-    #ctl = JC_U3912T_JoystickController(verbose=True)
+    #from elecom.jc_u3912t import JoystickController
 
     # Logicool製 F710 ワイヤレスゲームパッドの場合
-    #from part.bt_logicool import F710_JoystickController
-    #ctl = F710_JoystickController(verbose=True)
-
-    # Logicool製 F710 ワイヤレスゲームパッドの場合
-    from part.bt_logicool import Cordless_RumblePad2_JoystickController
-    ctl = Cordless_RumblePad2_JoystickController(verbose=True)
+    from logicool.f710 import JoystickController
+    ctl = JoystickController(verbose=True)
 
     # イベント待受ループを開始する
     # 妥当性検査モードがTrueなのでジョイスティックのボタンやアナログスティックを操作したら
