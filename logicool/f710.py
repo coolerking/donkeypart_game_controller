@@ -62,8 +62,10 @@ class JoystickController(BluetoothGameController):
                 device_search_term=DI_SEARCH_TERM, 
                 verbose=verbose)
             if self.verbose:
-                print('Use Xinput configuration')
+                print('Use DirectInput configuration')
             self.is_xi = False
+            # 両モード共通初期化処理を実行
+            self._init_common()
             self._init_di()
         else:
             super(JoystickController, self).__init__(
@@ -72,8 +74,10 @@ class JoystickController(BluetoothGameController):
                 device_search_term=XI_SEARCH_TERM, 
                 verbose=verbose)
             if self.verbose:
-                print('Use DirectInput configuration')
+                print('Use Xinput configuration')
             self.is_xi = True
+            # 両モード共通初期化処理を実行
+            self._init_common()
             self._init_xi()
 
     def _init_xi(self):
@@ -85,10 +89,6 @@ class JoystickController(BluetoothGameController):
         戻り値
             なし
         """
-        # 両モード共通初期化処理を実行
-        self._init_common()
-
-
         # event.type=ecodes.EV_KEY である場合に使用する value マップを取得
         self.ev_key_value_map = self.config.get('ev_key_value_map')
         if self.verbose:
@@ -108,11 +108,10 @@ class JoystickController(BluetoothGameController):
         戻り値
             なし
         """
-        # 両モード共通初期化処理を実行
-        self._init_common()
-
         # event.type=ecodes.EV_KEY である場合に使用する value マップを取得
         self.ev_msc_value_map = self.config.get('ev_key_value_map')
+        if self.verbose:
+            print('ev_msc_value_map: ', self.ev_msc_value_map)
 
         # アナログスティックの入力に関する情報をインスタンス変数へ格納
         self._init_analog_domain(default_max_value=255, default_min_value=0, 
