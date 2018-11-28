@@ -51,9 +51,9 @@ class JoystickController(BluetoothGameController):
             なし
         """
         XI_SEARCH_TERM = 'logitech gamepad f710'
-        XI_CONFIG_PATH = 'part/f710_xi.yml'
+        XI_CONFIG_PATH = 'logicool/f710_xi.yml'
         DI_SEARCH_TERM = 'logicool logicool cordless rumblepad 2'
-        DI_CONFIG_PATH = 'part/f710_di.yml'
+        DI_CONFIG_PATH = 'logicool/f710_di.yml'
 
         if self.find_input_device(XI_SEARCH_TERM) is None:
             super(JoystickController, self).__init__(
