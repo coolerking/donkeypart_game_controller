@@ -28,6 +28,7 @@ from donkeypart_bluetooth_game_controller import BluetoothGameController
 class JoystickController(BluetoothGameController):
     """
     F710 ワイヤレスゲームパッド用コントローラクラス。
+    Xinputモード/DirectInputモード兼用のpartクラスとして実装されている。
     manage.pyを編集し、ジョイスティックコントローラとして本コントローラをimportし
     て使用する。
     Vehiecleフレームワークに準拠している。
@@ -61,8 +62,8 @@ class JoystickController(BluetoothGameController):
                 config_path=DI_CONFIG_PATH, 
                 device_search_term=DI_SEARCH_TERM, 
                 verbose=verbose)
-            if self.verbose:
-                print('Use DirectInput configuration')
+            #if self.verbose:
+            print('Use DirectInput configuration')
             self.is_xi = False
             # 両モード共通初期化処理を実行
             self._init_common()
@@ -73,12 +74,42 @@ class JoystickController(BluetoothGameController):
                 config_path=XI_CONFIG_PATH, 
                 device_search_term=XI_SEARCH_TERM, 
                 verbose=verbose)
-            if self.verbose:
-                print('Use Xinput configuration')
+            #if self.verbose:
+            print('Use Xinput configuration')
             self.is_xi = True
             # 両モード共通初期化処理を実行
             self._init_common()
             self._init_xi()
+
+    def _init_common(self):
+        """
+        Xinput/DirectInput 両モード共通の処理を記述。
+        キー割り当てを変更する場合は、本メソッドを編集する。
+
+        引数
+            なし
+        戻り値
+            なし
+        """
+        # event.type=ecodes.EV_ABS である場合に使用する code マップを取得
+        self.ev_abs_code_map = self.config.get('ev_abs_code_map')
+
+        # DPAD 対象となるラベル
+        self.dpad_target = self.config.get('dpad_target', 
+            ['DPAD_X', 'DPAD_Y'])
+
+        # アナログ/DPADの正負反転補正
+        self.y_axis_direction = self.config.get('axis_direction', -1)
+
+        # 独自関数マップ　書き換え(key:ボタン名, value:呼び出す関数)
+        self.func_map = {
+            'LEFT_STICK_X': self.update_angle,     # アングル値更新
+            'RIGHT_STICK_Y': self.update_throttle, # スロットル値更新
+            'X': self.toggle_recording,            # 記録モード変更
+            'B': self.toggle_drive_mode,           # 運転モード変更
+            'Y': self.increment_throttle_scale,    # スロットル倍率増加
+            'A': self.decrement_throttle_scale,    # スロットル倍率減少
+        }
 
     def _init_xi(self):
         """
@@ -120,36 +151,6 @@ class JoystickController(BluetoothGameController):
         # アナログスティックの入力に関する情報をインスタンス変数へ格納
         self._init_analog_domain(default_max_value=255, default_min_value=0, 
             default_zero_value=127.5, default_epsilone=0.5)
-    
-    def _init_common(self):
-        """
-        Xinput/DirectInput 両モード共通の処理を記述。
-        キー割り当てを変更する場合は、本メソッドを編集する。
-
-        引数
-            なし
-        戻り値
-            なし
-        """
-        # event.type=ecodes.EV_ABS である場合に使用する code マップを取得
-        self.ev_abs_code_map = self.config.get('ev_abs_code_map')
-
-        # DPAD 対象となるラベル
-        self.dpad_target = self.config.get('dpad_target', 
-            ['DPAD_X', 'DPAD_Y'])
-
-        # アナログ/DPADの正負反転補正
-        self.y_axis_direction = self.config.get('axis_direction', -1)
-
-        # 独自関数マップ　書き換え(key:ボタン名, value:呼び出す関数)
-        self.func_map = {
-            'LEFT_STICK_X': self.update_angle,     # アングル値更新
-            'RIGHT_STICK_Y': self.update_throttle, # スロットル値更新
-            'X': self.toggle_recording,            # 記録モード変更
-            'B': self.toggle_drive_mode,           # 運転モード変更
-            'Y': self.increment_throttle_scale,    # スロットル倍率増加
-            'A': self.decrement_throttle_scale,    # スロットル倍率減少
-        }
 
     def _init_analog_domain(self, default_max_value=32767, default_min_value=-32768, 
         default_zero_value=0, default_epsilone=129):
@@ -249,7 +250,8 @@ class JoystickController(BluetoothGameController):
                 val = 1
 
             else:
-                print('ignore event: ', event)
+                if self.verbose:
+                    print('ignore event: ', event)
                 btn = None
                 val = None
 
@@ -271,5 +273,3 @@ class JoystickController(BluetoothGameController):
             self.load_device(self.device_search_term)
             # ボタン名, 値ともにNoneを返却
             return None, None
-
-
