@@ -90,6 +90,7 @@ class JoystickController(BluetoothGameController):
             なし
         """
         # event.type=ecodes.EV_KEY である場合に使用する value マップを取得
+        print('self.config =', self.config)
         self.ev_key_value_map = self.config.get('ev_key_value_map')
         if self.verbose:
             print('ev_key_value_map: ', self.ev_key_value_map)
