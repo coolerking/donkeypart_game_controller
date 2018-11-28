@@ -92,9 +92,9 @@ class JoystickController(BluetoothGameController):
         # event.type=ecodes.EV_KEY である場合に使用する value マップを取得
         if self.verbose:
             print('self.config =', self.config)
-        self.ev_key_value_map = self.config.get('ev_key_value_map')
+        self.ev_key_code_map = self.config.get('ev_key_code_map')
         if self.verbose:
-            print('ev_key_value_map: ', self.ev_key_value_map)
+            print('ev_key_code_map: ', self.ev_key_code_map)
 
         # アナログスティックの入力に関する情報をインスタンス変数へ格納
         self._init_analog_domain(default_max_value=32767, default_min_value=-32768, 
@@ -236,7 +236,7 @@ class JoystickController(BluetoothGameController):
             elif event.type == ecodes.EV_KEY and self.is_xi:
                 if self.verbose:
                     print('in button target(Xinput)')
-                btn = self.ev_key_value_map.get(event.value)
+                btn = self.ev_key_code_map.get(event.code)
                 # 0ではない場合、 1 にする
                 val = 0 if event.value == 0 else 1
 

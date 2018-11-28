@@ -27,8 +27,8 @@ ev_abs_code_map:
   16: 'DPAD_X'
   17: 'DPAD_Y'
 
-# event.type==ecodes.EV_KEY(1) {event.value, name}
-ev_key_value_map:
+# event.type==ecodes.EV_KEY(1) {event.code, name}
+ev_key_code_map:
   304: 'A'
   305: 'B'
   307: 'X'
