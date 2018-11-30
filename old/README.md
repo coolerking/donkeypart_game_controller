@@ -66,6 +66,7 @@ Raspberry Pi上にdonkeycarパッケージがインストールされ、`donkey 
 6. Raspberry Piwをシャットダウンします。
 7. コントローラ同梱のUSBドングルをRaspberry Piに刺します。
 8. コントローラ上面の D/Xスイッチを"X"側にします(DirectInputモードには対応していません)。
+   ![D/Xスイッチ](../images/D_X.jpg)
 9. JC-U3912T の場合は AUTO ボタン、F710 の場合はLogicool ロゴボタンを押します。
 10. Raspberry Piを再起動します。
 
