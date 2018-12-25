@@ -64,9 +64,9 @@ Raspberry Pi上にdonkeycarパッケージがインストールされ、`donkey 
             #from donkeypart_bluetooth_game_controller import BluetoothGameController
             #ctl = BluetoothGameController()
             # F710用ジョイスティックコントローラを使用
-            #from logicool.f710 import JoystickController
+            #from logicool import JoystickController
             # ELECOM JC-U3912T ジョイスティックコントローラを使用
-            from elecom.jc_u3912t import JoystickController
+            from elecom import JoystickController
             ctr = JoystickController()
     ```
 
@@ -76,9 +76,10 @@ Raspberry Pi上にdonkeycarパッケージがインストールされ、`donkey 
 
 ## 2 キー割り当ての変更
 
-Logicool製品の場合は `logicool/f710.py`、Elecom製品の場合は `elecom/jc_u3912t.py`上の各 `JoystickController` クラス上のインスタンス変数 `self.func_map` を編集することで、ジョイスティックのキーの割当機能を変更できます。
+Logicool製品の場合は `logicool/__init__.py`、Elecom製品の場合は `elecom/__init__
+.py`上の各 `JoystickController` クラス上のインスタンス変数 `self.func_map` を編集することで、ジョイスティックのキーの割当機能を変更できます。
 
-以下の関数は、`elecom/jc_u3912t.py`より該当箇所のみ切り出した例です(Logicoolの場合も同じ位置のボタンに機能を割り当てています)。
+以下の関数は、`elecom/__init__.py`より該当箇所のみ切り出した例です(Logicoolの場合も同じ位置のボタンに機能を割り当てています)。
 
 ```python
         # 独自関数マップ　書き換え(key:ボタン名, value:呼び出す関数)
@@ -96,11 +97,12 @@ Logicool製品の場合は `logicool/f710.py`、Elecom製品の場合は `elecom
 
 ボタンとイベントデータとのマッピングは `logicool/f710.yml` もしくは `elecom/jc_u3912t.yml` を参照してください。
 
-## 3 実行(手動運転)
+## 3 実行(手動/自動運転)
 
 * 以下のコマンドを実行して、ジョイスティックを使った手動運転を開始します。
    ```bash
    cd ~/mycar
+   # JC-U3912Tのデフォルト設定の場合"4"ボタンで運転モードを切り替え
    python manage.py drive --js
    ```
 
