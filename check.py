@@ -5,7 +5,6 @@
 キャラクタデバイス  /dev/input/js0 として認識されている
 ジョイスティックのボタン操作を行うとどのようなコードが
 出力されているのかを確認するためのプログラム。
-fcntl パッケージを使用するため、Windows環境では動作しない。
 
 Usage:
     check.py (logicool) [--direct_input]
