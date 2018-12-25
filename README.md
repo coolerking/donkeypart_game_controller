@@ -76,10 +76,9 @@ Raspberry Pi上にdonkeycarパッケージがインストールされ、`donkey 
 
 ## 2 キー割り当ての変更
 
-Logicool製品の場合は `logicool/__init__.py`、Elecom製品の場合は `elecom/__init__
-.py`上の各 `JoystickController` クラス上のインスタンス変数 `self.func_map` を編集することで、ジョイスティックのキーの割当機能を変更できます。
+Logicool製品の場合は `logicool/part.py`、Elecom製品の場合は `elecom/part.py`上の各 `JoystickController` クラス上のインスタンス変数 `self.func_map` を編集することで、ジョイスティックのキーの割当機能を変更できます。
 
-以下の関数は、`elecom/__init__.py`より該当箇所のみ切り出した例です(Logicoolの場合も同じ位置のボタンに機能を割り当てています)。
+以下の関数は、`elecom/part.py`より該当箇所のみ切り出した例です(Logicoolの場合も同じ位置のボタンに機能を割り当てています)。
 
 ```python
         # 独自関数マップ　書き換え(key:ボタン名, value:呼び出す関数)
