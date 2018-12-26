@@ -1,2 +1,6 @@
 nintendo/
 old/
+donkeypart_game_controller.egg-info/
+dist/
+build/
+.git
