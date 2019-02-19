@@ -24,18 +24,17 @@ if __name__ == "__main__":
     print('[check] start')
     args = docopt(__doc__)
 
-    if args['elecom']:
+    if args['logicool']:
         # ELECOM製 JC-U3912T ゲームパッドの場合
-        from elecom import JoystickController
+        from logicool import JoystickController
         if args['--direct_input']:
             print('[check] use F710 with DirectInput mode')
             ctl = JoystickController(config_path='logicool/f710_di.yml', verbose=True)
         else:
             print('[check] use F710 with X-Input mode')
             ctl = JoystickController(config_path='logicool/f710_xi.yml', verbose=True)
-    elif args['logicool']:
-        # Logicool製 F710 ワイヤレスゲームパッドの場合
-        from logicool import JoystickController
+    elif args['elecom']:
+        from elecom import JoystickController
         print('[check] use JC-U3912T')
         ctl = JoystickController(config_path='elecom/jc_u3912t.yml', verbose=True)
 
